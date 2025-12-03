@@ -1,13 +1,21 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>FoodAgenda</title>
-    <link rel="stylesheet" href="../styles.css">
-</head>
-<body>
-        <!-- Écran login / register -->
+
+    <!-- FullCalendar CSS -->
+    <link
+      href="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.15/index.global.min.css"
+      rel="stylesheet"
+    />
+
+    <!-- Styles globaux de l'app -->
+    <link rel="stylesheet" href="../styles.css" />
+  </head>
+  <body>
+    <!-- Écran login / register -->
     <div id="authContainer">
       <div class="card">
         <h2>FoodTruck.be - Inscription</h2>
@@ -122,7 +130,7 @@
           document.getElementById("truckTitle").textContent = myTruckName;
           document.getElementById("truckSubtitle").textContent = myTruckSpec;
 
-          // on cache le login, on montre l agenda
+          // on cache le login, on montre l'agenda
           document.getElementById("authContainer").style.display = "none";
           document.getElementById("appContainer").style.display = "block";
 
@@ -150,7 +158,7 @@
               calendar.addEvent({
                 title: "Disponible",
                 start: date,
-                color: "#22c55e",
+                color: "#ffd966", // Anonyme (jaune)
               });
             }
 
@@ -207,11 +215,12 @@
 
         calendar.removeAllEvents();
 
+        // Tes jours = Foodtruck (orange)
         selectedDates.forEach((date) => {
           calendar.addEvent({
             title: `${myTruckName} - ${myTruckSpec}`,
             start: date,
-            color: "#22c55e",
+            color: "#e69138", // Foodtruck (orange)
           });
         });
 
@@ -228,18 +237,20 @@
           const rand = Math.random();
 
           if (rand < 0.4) {
+            // Créneau libre = Anonyme (jaune)
             calendar.addEvent({
               title: "Créneau libre",
               start: dateStr,
-              color: "#38bdf8",
+              color: "#ffd966",
             });
           } else {
+            // Déjà pris = Admin / autre foodtruck (rouge)
             const truck =
               otherTrucks[Math.floor(Math.random() * otherTrucks.length)];
             calendar.addEvent({
               title: `Déjà pris - ${truck.name} (${truck.spec})`,
               start: dateStr,
-              color: "#f97316",
+              color: "#c00000",
             });
           }
         }
@@ -249,5 +260,5 @@
         );
       }
     </script>
-</body>
+  </body>
 </html>
