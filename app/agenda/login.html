@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Connexion - FoodTruck Agenda</title>
+    <link rel="icon" href="favicon.ico" type="image/x-icon">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #ffd966, #e69138);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .login-container {
+            background: white;
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+            text-align: center;
+            max-width: 400px;
+            width: 90%;
+        }
+
+        .login-container h1 {
+            font-size: 2rem;
+            color: #333;
+            margin-bottom: 20px;
+        }
+
+        .login-container p {
+            color: #666;
+            margin-bottom: 30px;
+        }
+
+        .g_id_signin {
+            margin: 0 auto;
+        }
+
+        .g_id_signin > div {
+            width: 100% !important;
+            max-width: 300px;
+            margin: 0 auto;
+        }
+
+        .back-link {
+            display: block;
+            margin-top: 20px;
+            color: #c00000;
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        .back-link:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <div class="login-container">
+        <h1>Bienvenue sur FoodTruck Agenda</h1>
+        <p>Connectez-vous avec Google pour accéder à votre agenda.</p>
+
+        <!-- Google Sign-In Button -->
+        <div id="g_id_onload"
+             data-client_id="VOTRE_CLIENT_ID.apps.googleusercontent.com"
+             data-login_uri="https://votre-site.com/login.php"
+             data-auto_prompt="false">
+        </div>
+
+        <div class="g_id_signin"
+             data-type="standard"
+             data-size="large"
+             data-theme="outline"
+             data-text="sign_in_with"
+             data-shape="rectangular"
+             data-logo_alignment="left">
+        </div>
+
+        <a href="index.html" class="back-link">← Retour à l'accueil</a>
+    </div>
+
+    <!-- Google Identity Services -->
+    <script src="https://accounts.google.com/gsi/client?hl=fr" async defer></script>
+    <script>
+        // Remplacez par l'URL de votre page après connexion
+        const redirectUrl = 'dashboard.html';
+
+        // Fonction appelée après connexion réussie
+        function handleCredentialResponse(response) {
+            // Ici, vous pouvez envoyer le jeton à votre backend
+            // Pour l'exemple, on redirige directement
+            window.location.href = redirectUrl;
+        }
+
+        // Attache la fonction de callback au bouton Google
+        window.onload = function() {
+            google.accounts.id.initialize({
+                client_id: "VOTRE_CLIENT_ID.apps.googleusercontent.com",
+                callback: handleCredentialResponse
+            });
+            google.accounts.id.renderButton(
+                document.getElementById("g_id_onload").nextElementSibling,
+                { theme: "outline", size: "large" }
+            );
+        };
+    </script>
+</body>
+</html>
