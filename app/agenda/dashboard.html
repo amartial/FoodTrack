@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="fr">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -29,7 +30,7 @@
             background: #e69138;
             padding: 1rem 0;
             margin-bottom: 2rem;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
         }
 
         .header-content {
@@ -59,7 +60,7 @@
             background: white;
             border-radius: 20px;
             padding: 30px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
         }
 
         main h1 {
@@ -163,9 +164,18 @@
             font-weight: 500;
         }
 
-        .event.free { background: #4CAF50; }
-        .event.booked { background: #c00000; }
-        .event.add { background: #ffd966; color: #333; }
+        .event.free {
+            background: #4CAF50;
+        }
+
+        .event.booked {
+            background: #c00000;
+        }
+
+        .event.add {
+            background: #ffd966;
+            color: #333;
+        }
 
         .today {
             background: linear-gradient(135deg, #c00000, #e69138) !important;
@@ -214,23 +224,24 @@
                 flex-direction: column;
                 text-align: center;
             }
-            
+
             .calendar tbody td {
                 height: 60px;
                 font-size: 0.9rem;
             }
-            
+
             .day-number {
                 font-size: 1rem;
             }
         }
     </style>
 </head>
+
 <body>
     <header>
         <div class="container">
             <div class="header-content">
-                <img src="../logo.png" alt="FoodTruck Agenda Logo" class="logo" >
+                <img src="../logo.png" alt="FoodTruck Agenda Logo" class="logo">
                 <nav>
                     <a href="dashboard.html">Agenda</a>
                     <a href="profile.html">Profil</a>
@@ -241,8 +252,8 @@
     </header>
 
     <main class="container">
-        <h1>Votre Agenda FoodTruck</h1>
-        
+        <h1>Bienvenue sur votre agenda !</h1>
+
         <div class="calendar-header">
             <div class="calendar-nav">
                 <button class="nav-btn" onclick="previousMonth()">‹ Mois précédent</button>
@@ -255,7 +266,13 @@
         <table class="calendar" id="calendar">
             <thead>
                 <tr>
-                    <th>Lun</th><th>Mar</th><th>Mer</th><th>Jeu</th><th>Ven</th><th>Sam</th><th>Dim</th>
+                    <th>Lun</th>
+                    <th>Mar</th>
+                    <th>Mer</th>
+                    <th>Jeu</th>
+                    <th>Ven</th>
+                    <th>Sam</th>
+                    <th>Dim</th>
                 </tr>
             </thead>
             <tbody id="calendarBody"></tbody>
@@ -289,8 +306,8 @@
             const year = date.getFullYear();
             const month = date.getMonth();
             const today = new Date();
-            
-            document.getElementById('calendarTitle').textContent = 
+
+            document.getElementById('calendarTitle').textContent =
                 date.toLocaleDateString('fr-FR', { year: 'numeric', month: 'long' });
 
             const firstDay = new Date(year, month, 1);
@@ -317,7 +334,7 @@
                 let events = [];
                 if (isCurrentMonth) {
                     const dayEvents = getEventsForDate(cellDate);
-                    events = dayEvents.map(event => 
+                    events = dayEvents.map(event =>
                         `<span class="event ${event.type}">${event.title}</span>`
                     );
                 }
@@ -328,7 +345,7 @@
                         <div class="events">${events.join('')}</div>
                     </td>
                 `;
-                
+
                 if ((i + 1) % 7 === 0) {
                     calendarHTML += '</tr><tr>';
                 }
@@ -345,8 +362,8 @@
                 { date: '2025-12-15', type: 'free', title: '11h-15h' },
                 { date: '2025-12-20', type: 'booked', title: '19h-22h' }
             ];
-            
-            return events.filter(event => 
+
+            return events.filter(event =>
                 new Date(event.date).toDateString() === date.toDateString()
             );
         }
@@ -354,7 +371,7 @@
         function selectDate(dateStr) {
             selectedDate = new Date(dateStr);
             generateCalendar(currentDate);
-            
+
             // Ici vous pouvez ouvrir un modal pour gérer les horaires
             alert(`Sélection: ${new Date(dateStr).toLocaleDateString('fr-FR')}\nCliquez pour ajouter vos disponibilités !`);
         }
@@ -375,9 +392,10 @@
         }
 
         // Initialisation
-        window.onload = function() {
+        window.onload = function () {
             generateCalendar(currentDate);
         };
     </script>
 </body>
+
 </html>
