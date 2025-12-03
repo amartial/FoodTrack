@@ -266,6 +266,169 @@
         font-weight: bold;
       }
 
+      /* Contact Section */
+      .contact-hero {
+        background: linear-gradient(135deg, #ffd966, #e69138);
+        padding: 60px 0;
+        text-align: center;
+        color: #333;
+      }
+
+      .contact-hero h1 {
+        font-size: 2.5rem;
+        margin-bottom: 1rem;
+        font-weight: 700;
+      }
+
+      .contact-hero p {
+        font-size: 1.2rem;
+      }
+
+      .contact-content {
+        padding: 80px 0;
+        background: #f8f9fa;
+      }
+
+      .contact-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 3rem;
+        max-width: 1000px;
+        margin: 0 auto;
+      }
+
+      .contact-form-wrapper {
+        background: white;
+        padding: 2.5rem;
+        border-radius: 20px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+      }
+
+      .contact-form-wrapper h2 {
+        font-size: 1.8rem;
+        margin-bottom: 2rem;
+        color: #333;
+      }
+
+      .form-group {
+        margin-bottom: 1.5rem;
+      }
+
+      .form-group label {
+        display: block;
+        font-weight: 600;
+        margin-bottom: 0.5rem;
+        color: #333;
+      }
+
+      .form-group input,
+      .form-group textarea {
+        width: 100%;
+        padding: 0.75rem;
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        font-family: inherit;
+        font-size: 1rem;
+        transition: border-color 0.3s;
+      }
+
+      .form-group input:focus,
+      .form-group textarea:focus {
+        outline: none;
+        border-color: #e69138;
+        box-shadow: 0 0 0 3px rgba(230, 145, 56, 0.1);
+      }
+
+      .submit-button {
+        background: #c00000;
+        color: white;
+        padding: 0.75rem 2rem;
+        border: none;
+        border-radius: 8px;
+        font-size: 1rem;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.3s;
+        width: 100%;
+      }
+
+      .submit-button:hover {
+        background: #a00000;
+        transform: translateY(-2px);
+        box-shadow: 0 5px 15px rgba(192, 0, 0, 0.3);
+      }
+
+      .contact-info {
+        background: white;
+        padding: 2.5rem;
+        border-radius: 20px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+      }
+
+      .contact-info h2 {
+        font-size: 1.8rem;
+        margin-bottom: 2rem;
+        color: #333;
+      }
+
+      .info-item {
+        display: flex;
+        gap: 1.5rem;
+        margin-bottom: 2rem;
+      }
+
+      .info-icon {
+        font-size: 2rem;
+        min-width: 60px;
+        text-align: center;
+      }
+
+      .info-text h3 {
+        font-size: 1.1rem;
+        margin-bottom: 0.5rem;
+        color: #333;
+      }
+
+      .info-text p {
+        color: #666;
+        line-height: 1.6;
+      }
+
+      .info-text a {
+        color: #e69138;
+        text-decoration: none;
+        font-weight: 600;
+        transition: color 0.3s;
+      }
+
+      .info-text a:hover {
+        color: #c00000;
+      }
+
+      .social-links {
+        display: flex;
+        gap: 1rem;
+        margin-top: 2rem;
+        padding-top: 2rem;
+        border-top: 1px solid #eee;
+      }
+
+      .social-link {
+        display: inline-block;
+        padding: 0.5rem 1rem;
+        background: linear-gradient(135deg, #ffd966, #e69138);
+        color: white;
+        text-decoration: none;
+        border-radius: 8px;
+        font-weight: 600;
+        transition: all 0.3s;
+      }
+
+      .social-link:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 5px 15px rgba(230, 145, 56, 0.3);
+      }
+
       /* Footer */
       footer {
         background: #333;
@@ -276,6 +439,23 @@
 
       /* Responsive */
       @media (max-width: 768px) {
+        .contact-grid {
+          grid-template-columns: 1fr;
+        }
+
+        .contact-hero h1 {
+          font-size: 2rem;
+        }
+
+        .contact-form-wrapper,
+        .contact-info {
+          padding: 1.5rem;
+        }
+
+        .social-links {
+          flex-wrap: wrap;
+        }
+
         .hero h1 {
           font-size: 2.5rem;
         }
