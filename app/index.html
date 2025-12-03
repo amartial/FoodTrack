@@ -1,259 +1,93 @@
 <!DOCTYPE html>
-<html>
-  <head>
-    <meta charset="utf-8" />
-    <title>FoodTruck – Disponibilités</title>
-
-    <!-- FullCalendar CSS -->
-    <link
-      href="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.15/index.global.min.css"
-      rel="stylesheet"
-    />
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FoodTruck Agenda</title>
+    <link rel="icon" href="favicon.ico" type="image/x-icon">
     <link rel="stylesheet" href="styles.css">
-  </head>
 
-  <body>
-    <!-- Écran login / register -->
-    <div id="authContainer">
-      <div class="card">
-        <h2>FoodTruck.be - Inscription</h2>
-        <p style="font-size: 0.9rem; text-align: center;">
-          Crée ton compte pour gérer ton agenda de FoodTruck.
-        </p>
-        <form id="authForm">
-          <label>
-            Nom du FoodTruck
-            <input
-              type="text"
-              id="truckName"
-              placeholder="Ex: Kebab Express"
-              required
-            />
-          </label>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="container">
+            <div class="header-content">
+                <img src="logo.png" alt="FoodTruck Agenda Logo" class="logo">
+                <nav>
+                    <ul>
+                        <li><a href="#roles">Pour qui ?</a></li>
+                        <li><a href="#features">Fonctionnalités</a></li>
+                        <li><a href="#contact">Contact</a></li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </header>
 
-          <label>
-            Spécialité
-            <input
-              type="text"
-              id="truckSpec"
-              placeholder="Ex: Kebab"
-              required
-            />
-          </label>
+    <!-- Hero -->
+    <section class="hero">
+        <div class="container">
+            <h1>Gérez votre Agenda FoodTruck</h1>
+            <p>Les foodtrucks publient leur disponibilité, les clients réservent facilement. Simple, efficace, en temps réel.</p>
+            <a href="login.html" class="cta-button">Commencer maintenant</a>
+        </div>
+    </section>
 
-          <label>
-            Email
-            <input
-              type="email"
-              id="email"
-              placeholder="tonmail@exemple.com"
-              required
-            />
-          </label>
+    <!-- Roles -->
+    <section id="roles" class="roles">
+        <div class="container">
+            <h2>Chacun son espace</h2>
+            <div class="roles-grid">
+                <div class="role-card role-anonyme">
+                    <div class="role-icon">👤</div>
+                    <h3>Anonyme</h3>
+                    <p>Consultez les disponibilités et réservez un foodtruck près de chez vous.</p>
+                </div>
+                <div class="role-card role-foodtruck">
+                    <div class="role-icon">🚚</div>
+                    <h3>Foodtruck</h3>
+                    <p>Gérez votre agenda, publiez vos créneaux et recevez les réservations.</p>
+                </div>
+                <div class="role-card role-admin">
+                    <div class="role-icon">⚙️</div>
+                    <h3>Admin</h3>
+                    <p>Supervisez l'activité, gérez les comptes et modérez le contenu.</p>
+                </div>
+            </div>
+        </div>
+    </section>
 
-          <label>
-            Mot de passe
-            <input
-              type="password"
-              id="password"
-              placeholder="••••••••"
-              required
-            />
-          </label>
+    <!-- Features -->
+    <section id="features" class="features">
+        <div class="container">
+            <h2>Pourquoi nous choisir ?</h2>
+            <div class="features-grid">
+                <div class="feature">
+                    <div class="feature-icon">📅</div>
+                    <p><strong>Agenda temps réel</strong><br>Disponibilités mises à jour instantanément</p>
+                </div>
+                <div class="feature">
+                    <div class="feature-icon">📱</div>
+                    <p><strong>100% responsive</strong><br>Parfait sur mobile et desktop</p>
+                </div>
+                <div class="feature">
+                    <div class="feature-icon">🔒</div>
+                    <p><strong>Sécurisé</strong><br>Connexion & données protégées</p>
+                </div>
+                <div class="feature">
+                    <div class="feature-icon">⚡</div>
+                    <p><strong>Rapide</strong><br>Chargement ultra-rapide</p>
+                </div>
+            </div>
+        </div>
+    </section>
 
-          <button type="submit">Accéder à mon agenda</button>
-        </form>
-      </div>
-    </div>
-
-    <!-- App agenda -->
-    <div id="appContainer" style="display: none;">
-      <h1>
-        Agenda de
-        <span id="truckTitle">Mon FoodTruck</span>
-      </h1>
-      <p>
-        Spécialité :
-        <span id="truckSubtitle">Kebab</span>
-      </p>
-
-      <p>Clique sur les jours où ton FoodTruck est disponible.</p>
-
-      <div id="calendar"></div>
-
-      <div id="selected">
-        <h3>Dates sélectionnées :</h3>
-        <ul id="datesList"></ul>
-
-        <button onclick="saveDates()">Enregistrer mes dates</button>
-      </div>
-
-      <div id="randomChoice">
-        <h3>Tournée proposée (3 jours au hasard) :</h3>
-        <ul id="randomList"></ul>
-      </div>
-    </div>
-
-    <!-- FullCalendar JS -->
-    <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.15/index.global.min.js"></script>
-
-    <script>
-      let selectedDates = [];
-      let calendar;
-
-      let myTruckName = "Mon FoodTruck";
-      let myTruckSpec = "Kebab";
-
-      const otherTrucks = [
-        { name: "Taco Mania", spec: "Tacos" },
-        { name: "La Pizza Mobile", spec: "Pizza au feu de bois" },
-        { name: "Burger Road", spec: "Burgers" },
-        { name: "Waffle Street", spec: "Gaufres" },
-        { name: "Vegan Wheels", spec: "Vegan bowls" },
-        { name: "Sushi Van", spec: "Sushi" },
-      ];
-
-      document.addEventListener("DOMContentLoaded", function () {
-        const authForm = document.getElementById("authForm");
-
-        authForm.addEventListener("submit", function (e) {
-          e.preventDefault();
-
-          const nameInput = document.getElementById("truckName").value.trim();
-          const specInput = document.getElementById("truckSpec").value.trim();
-
-          myTruckName = nameInput || "Mon FoodTruck";
-          myTruckSpec = specInput || "Kebab";
-
-          document.getElementById("truckTitle").textContent = myTruckName;
-          document.getElementById("truckSubtitle").textContent = myTruckSpec;
-
-          // on cache le login, on montre l agenda
-          document.getElementById("authContainer").style.display = "none";
-          document.getElementById("appContainer").style.display = "block";
-
-          initCalendar();
-        });
-      });
-
-      function initCalendar() {
-        const calendarEl = document.getElementById("calendar");
-
-        calendar = new FullCalendar.Calendar(calendarEl, {
-          initialView: "dayGridMonth",
-          locale: "fr",
-          selectable: true,
-          dateClick: function (info) {
-            const date = info.dateStr;
-
-            if (selectedDates.includes(date)) {
-              selectedDates = selectedDates.filter((d) => d !== date);
-              calendar.getEvents().forEach((ev) => {
-                if (ev.startStr === date) ev.remove();
-              });
-            } else {
-              selectedDates.push(date);
-              calendar.addEvent({
-                title: "Disponible",
-                start: date,
-                color: "#22c55e",
-              });
-            }
-
-            refreshList();
-          },
-        });
-
-        calendar.render();
-      }
-
-      function refreshList() {
-        const ul = document.getElementById("datesList");
-        ul.innerHTML = "";
-        selectedDates.forEach((d) => {
-          const li = document.createElement("li");
-          li.textContent = d;
-          ul.appendChild(li);
-        });
-      }
-
-      function getRandomSample(arr, n) {
-        const copy = [...arr];
-        const sample = [];
-        const count = Math.min(n, copy.length);
-
-        for (let i = 0; i < count; i++) {
-          const idx = Math.floor(Math.random() * copy.length);
-          sample.push(copy[idx]);
-          copy.splice(idx, 1);
-        }
-        return sample;
-      }
-
-      function formatDate(year, month, day) {
-        const m = String(month + 1).padStart(2, "0");
-        const d = String(day).padStart(2, "0");
-        return `${year}-${m}-${d}`;
-      }
-
-      function saveDates() {
-        if (selectedDates.length === 0) {
-          alert("Aucune date sélectionnée.");
-          return;
-        }
-
-        const ulRandom = document.getElementById("randomList");
-        ulRandom.innerHTML = "";
-        const chosen = getRandomSample(selectedDates, 3);
-        chosen.forEach((d) => {
-          const li = document.createElement("li");
-          li.textContent = d;
-          ulRandom.appendChild(li);
-        });
-
-        calendar.removeAllEvents();
-
-        selectedDates.forEach((date) => {
-          calendar.addEvent({
-            title: `${myTruckName} - ${myTruckSpec}`,
-            start: date,
-            color: "#22c55e",
-          });
-        });
-
-        const current = calendar.getDate();
-        const year = current.getFullYear();
-        const month = current.getMonth();
-        const daysInMonth = new Date(year, month + 1, 0).getDate();
-
-        for (let day = 1; day <= daysInMonth; day++) {
-          const dateStr = formatDate(year, month, day);
-
-          if (selectedDates.includes(dateStr)) continue;
-
-          const rand = Math.random();
-
-          if (rand < 0.4) {
-            calendar.addEvent({
-              title: "Créneau libre",
-              start: dateStr,
-              color: "#38bdf8",
-            });
-          } else {
-            const truck =
-              otherTrucks[Math.floor(Math.random() * otherTrucks.length)];
-            calendar.addEvent({
-              title: `Déjà pris - ${truck.name} (${truck.spec})`,
-              start: dateStr,
-              color: "#f97316",
-            });
-          }
-        }
-
-        alert(
-          "Tes dates sont enregistrées (démo). Tes jours sont marqués avec ton FoodTruck."
-        );
-      }
-    </script>
-  </body>
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <p>&copy; 2025 FoodTruck Agenda. Tous droits réservés.</p>
+        </div>
+    </footer>
+</body>
 </html>
