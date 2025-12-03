@@ -29,6 +29,7 @@
             background: #e69138;
             padding: 1rem 0;
             margin-bottom: 2rem;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
         }
 
         .header-content {
@@ -47,41 +48,181 @@
             text-decoration: none;
             margin-left: 20px;
             font-weight: 600;
+            transition: opacity 0.3s;
+        }
+
+        nav a:hover {
+            opacity: 0.8;
         }
 
         main {
-            text-align: center;
-            padding: 60px 20px;
+            background: white;
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
         }
 
         main h1 {
             font-size: 2.5rem;
             color: #c00000;
             margin-bottom: 1rem;
+            text-align: center;
         }
 
-        main p {
-            font-size: 1.2rem;
+        .calendar-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
             margin-bottom: 2rem;
-            max-width: 600px;
-            margin-left: auto;
-            margin-right: auto;
+            flex-wrap: wrap;
+            gap: 1rem;
         }
 
-        .btn {
-            display: inline-block;
-            background: #c00000;
-            color: white;
-            padding: 12px 30px;
-            text-decoration: none;
+        .calendar-nav {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+
+        .nav-btn {
+            background: #ffd966;
+            border: none;
+            padding: 10px 15px;
             border-radius: 50px;
+            cursor: pointer;
             font-weight: 600;
+            color: #333;
             transition: all 0.3s;
         }
 
-        .btn:hover {
+        .nav-btn:hover {
+            background: #e69138;
+            color: white;
             transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(192,0,0,0.3);
+        }
+
+        .calendar-title {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: #333;
+        }
+
+        .calendar {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .calendar thead th {
+            background: linear-gradient(135deg, #ffd966, #e69138);
+            color: white;
+            padding: 15px;
+            text-align: center;
+            font-weight: 600;
+            font-size: 1.1rem;
+        }
+
+        .calendar tbody td {
+            width: 14.28%;
+            height: 80px;
+            border: 2px solid #eee;
+            text-align: center;
+            vertical-align: top;
+            padding: 8px;
+            position: relative;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .calendar tbody td:hover {
+            background: #f0f0f0;
+            transform: scale(1.05);
+        }
+
+        .calendar tbody td.other-month {
+            background: #f8f9fa;
+            color: #ccc;
+        }
+
+        .day-number {
+            font-weight: 600;
+            font-size: 1.1rem;
+            margin-bottom: 5px;
+        }
+
+        .events {
+            font-size: 0.8rem;
+            line-height: 1.3;
+        }
+
+        .event {
+            display: block;
+            margin-bottom: 2px;
+            padding: 2px 6px;
+            border-radius: 10px;
+            color: white;
+            font-weight: 500;
+        }
+
+        .event.free { background: #4CAF50; }
+        .event.booked { background: #c00000; }
+        .event.add { background: #ffd966; color: #333; }
+
+        .today {
+            background: linear-gradient(135deg, #c00000, #e69138) !important;
+            color: white !important;
+        }
+
+        .selected {
+            background: #ffd966 !important;
+            color: #333 !important;
+            box-shadow: 0 0 0 2px #e69138;
+        }
+
+        .legend {
+            display: flex;
+            gap: 20px;
+            margin-top: 2rem;
+            padding-top: 2rem;
+            border-top: 2px solid #eee;
+            flex-wrap: wrap;
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .legend-color {
+            width: 20px;
+            height: 20px;
+            border-radius: 4px;
+        }
+
+        .status-info {
+            text-align: center;
+            margin-top: 2rem;
+            padding: 20px;
+            background: linear-gradient(135deg, #ffd966, #e69138);
+            border-radius: 15px;
+            color: #333;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .calendar-header {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .calendar tbody td {
+                height: 60px;
+                font-size: 0.9rem;
+            }
+            
+            .day-number {
+                font-size: 1rem;
+            }
         }
     </style>
 </head>
@@ -89,20 +230,154 @@
     <header>
         <div class="container">
             <div class="header-content">
-                <img src="../logo.png" alt="FoodTruck Agenda Logo" class="logo">
+                <img src="../logo.png" alt="FoodTruck Agenda Logo" class="logo" >
                 <nav>
                     <a href="dashboard.html">Agenda</a>
                     <a href="profile.html">Profil</a>
-                    <a href="logout.html">Déconnexion</a>
+                    <a href="../index.html">Déconnexion</a>
                 </nav>
             </div>
         </div>
     </header>
 
     <main class="container">
-        <h1>Bienvenue sur votre agenda !</h1>
-        <p>Vous êtes connecté avec Google. Vous pouvez maintenant gérer vos disponibilités et voir vos réservations.</p>
+        <h1>Votre Agenda FoodTruck</h1>
         
+        <div class="calendar-header">
+            <div class="calendar-nav">
+                <button class="nav-btn" onclick="previousMonth()">‹ Mois précédent</button>
+                <button class="nav-btn" onclick="today()">Aujourd'hui</button>
+                <button class="nav-btn" onclick="nextMonth()">Mois suivant ›</button>
+            </div>
+            <div class="calendar-title" id="calendarTitle"></div>
+        </div>
+
+        <table class="calendar" id="calendar">
+            <thead>
+                <tr>
+                    <th>Lun</th><th>Mar</th><th>Mer</th><th>Jeu</th><th>Ven</th><th>Sam</th><th>Dim</th>
+                </tr>
+            </thead>
+            <tbody id="calendarBody"></tbody>
+        </table>
+
+        <div class="legend">
+            <div class="legend-item">
+                <div class="legend-color" style="background: #4CAF50;"></div>
+                <span>Disponible</span>
+            </div>
+            <div class="legend-item">
+                <div class="legend-color" style="background: #c00000;"></div>
+                <span>Réservé</span>
+            </div>
+            <div class="legend-item">
+                <div class="legend-color" style="background: #ffd966; border: 1px solid #ddd;"></div>
+                <span>À ajouter</span>
+            </div>
+        </div>
+
+        <div class="status-info">
+            <strong>Cliquez sur un jour pour ajouter/supprimer une disponibilité !</strong>
+        </div>
     </main>
+
+    <script>
+        let currentDate = new Date();
+        let selectedDate = null;
+
+        function generateCalendar(date) {
+            const year = date.getFullYear();
+            const month = date.getMonth();
+            const today = new Date();
+            
+            document.getElementById('calendarTitle').textContent = 
+                date.toLocaleDateString('fr-FR', { year: 'numeric', month: 'long' });
+
+            const firstDay = new Date(year, month, 1);
+            const lastDay = new Date(year, month + 1, 0);
+            const startDate = new Date(firstDay);
+            startDate.setDate(startDate.getDate() - firstDay.getDay() + 1);
+
+            let calendarHTML = '';
+            let count = 0;
+
+            for (let i = 0; i < 42; i++) {
+                const cellDate = new Date(startDate);
+                cellDate.setDate(startDate.getDate() + i);
+
+                const isCurrentMonth = cellDate.getMonth() === month;
+                const isToday = cellDate.toDateString() === today.toDateString();
+                const isSelected = selectedDate && cellDate.toDateString() === selectedDate.toDateString();
+
+                let classes = [];
+                if (!isCurrentMonth) classes.push('other-month');
+                if (isToday) classes.push('today');
+                if (isSelected) classes.push('selected');
+
+                let events = [];
+                if (isCurrentMonth) {
+                    const dayEvents = getEventsForDate(cellDate);
+                    events = dayEvents.map(event => 
+                        `<span class="event ${event.type}">${event.title}</span>`
+                    );
+                }
+
+                calendarHTML += `
+                    <td class="${classes.join(' ')}" onclick="selectDate('${cellDate.toDateString()}')">
+                        <div class="day-number">${cellDate.getDate()}</div>
+                        <div class="events">${events.join('')}</div>
+                    </td>
+                `;
+                
+                if ((i + 1) % 7 === 0) {
+                    calendarHTML += '</tr><tr>';
+                }
+            }
+
+            document.getElementById('calendarBody').innerHTML = calendarHTML;
+        }
+
+        function getEventsForDate(date) {
+            // Données d'exemple - remplacez par votre backend
+            const events = [
+                { date: '2025-12-10', type: 'free', title: '12h-14h' },
+                { date: '2025-12-10', type: 'booked', title: '18h-20h' },
+                { date: '2025-12-15', type: 'free', title: '11h-15h' },
+                { date: '2025-12-20', type: 'booked', title: '19h-22h' }
+            ];
+            
+            return events.filter(event => 
+                new Date(event.date).toDateString() === date.toDateString()
+            );
+        }
+
+        function selectDate(dateStr) {
+            selectedDate = new Date(dateStr);
+            generateCalendar(currentDate);
+            
+            // Ici vous pouvez ouvrir un modal pour gérer les horaires
+            alert(`Sélection: ${new Date(dateStr).toLocaleDateString('fr-FR')}\nCliquez pour ajouter vos disponibilités !`);
+        }
+
+        function previousMonth() {
+            currentDate.setMonth(currentDate.getMonth() - 1);
+            generateCalendar(currentDate);
+        }
+
+        function nextMonth() {
+            currentDate.setMonth(currentDate.getMonth() + 1);
+            generateCalendar(currentDate);
+        }
+
+        function today() {
+            currentDate = new Date();
+            generateCalendar(currentDate);
+        }
+
+        // Initialisation
+        window.onload = function() {
+            generateCalendar(currentDate);
+        };
+    </script>
 </body>
 </html>
